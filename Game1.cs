@@ -32,16 +32,16 @@ namespace Monogame___Animations
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
 
-            greyTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height), 100, 100);
+            greyTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height - 100), 100, 100);
             greyTribbleSpeed = new Vector2(5, 5);
 
-            creamTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height),100, 100);
+            creamTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height - 100),100, 100);
             creamTribbleSpeed = new Vector2(5, 0);
 
-            orangeTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height), 100, 100);
+            orangeTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height - 100), 100, 100);
             orangeTribbleSpeed = new Vector2(0, 5);
 
-            brownTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height), 100,100);
+            brownTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height - 100), 100,100);
             brownTribbleSpeed = new Vector2(1, 5);
             base.Initialize();
         }
@@ -57,6 +57,7 @@ namespace Monogame___Animations
             brownTribbleTexture = Content.Load<Texture2D>("tribbleBrown");
             windowTexture = Content.Load<Texture2D>("tribbleGalaxy");
             seaBackground = Content.Load<Texture2D>("tribbleUnderwater");
+            spaceBackground = Content.Load<Texture2D>("tribbleGalaxy");
 
         }
 
@@ -71,17 +72,17 @@ namespace Monogame___Animations
             greyTribbleRect.X += (int)greyTribbleSpeed.X;
             if (greyTribbleRect.Right > window.Width || greyTribbleRect.Left < 0)
             {
-                greyTribbleSpeed.X *= -1;
+                greyTribbleSpeed.X = 5;
+                greyTribbleSpeed.X *= generator.Next(-2,0);
                 windowTexture = seaBackground;
             }
 
             greyTribbleRect.Y += (int)greyTribbleSpeed.Y;
             if (greyTribbleRect.Top < 0 || greyTribbleRect.Bottom > window.Height)
             {
+                greyTribbleSpeed.Y = 5;
                 greyTribbleSpeed.Y *= -1;
-
-                windowTexture = Content.Load<Texture2D>("tribbleGalaxy");
-
+                windowTexture = spaceBackground;
             }
 
 
@@ -91,8 +92,7 @@ namespace Monogame___Animations
             if (creamTribbleRect.Right > window.Width || creamTribbleRect.Left < 0)
             {
                 creamTribbleSpeed.X *= -1;
-                windowTexture = Content.Load<Texture2D>("tribbleUnderwater");
-
+                windowTexture = seaBackground;
             }
 
 
@@ -103,9 +103,7 @@ namespace Monogame___Animations
             if (orangeTribbleRect.Top < 0 || orangeTribbleRect.Bottom > window.Height)
             {
                 orangeTribbleSpeed.Y *= -1;
-                windowTexture = Content.Load<Texture2D>("tribbleGalaxy");
-
-
+                windowTexture = spaceBackground;
             }
 
 
@@ -115,15 +113,12 @@ namespace Monogame___Animations
             if (brownTribbleRect.Right > window.Width || brownTribbleRect.Left < 0)
             {
                 brownTribbleSpeed.X *= -1;
-                windowTexture = Content.Load<Texture2D>("tribbleUnderwater");
-
+                windowTexture = seaBackground;
             }
             if (brownTribbleRect.Top < 0 || brownTribbleRect.Bottom > window.Height)
             {
                 brownTribbleSpeed.Y *= -1;
-                windowTexture = Content.Load<Texture2D>("tribbleGalaxy");
-
-
+                windowTexture = spaceBackground;
             }
 
             base.Update(gameTime);
