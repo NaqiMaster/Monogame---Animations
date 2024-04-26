@@ -72,15 +72,13 @@ namespace Monogame___Animations
             greyTribbleRect.X += (int)greyTribbleSpeed.X;
             if (greyTribbleRect.Right > window.Width || greyTribbleRect.Left < 0)
             {
-                greyTribbleSpeed.X = 5;
-                greyTribbleSpeed.X *= generator.Next(-2,0);
+                greyTribbleSpeed.X *= -1;
                 windowTexture = seaBackground;
             }
 
             greyTribbleRect.Y += (int)greyTribbleSpeed.Y;
             if (greyTribbleRect.Top < 0 || greyTribbleRect.Bottom > window.Height)
             {
-                greyTribbleSpeed.Y = 5;
                 greyTribbleSpeed.Y *= -1;
                 windowTexture = spaceBackground;
             }
