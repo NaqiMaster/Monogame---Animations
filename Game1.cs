@@ -10,7 +10,7 @@ namespace Monogame___Animations
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        SoundEffect tribbleSound;
         Random generator = new Random();
         Rectangle window;
         Texture2D greyTribbleTexture, creamTribbleTexture, orangeTribbleTexture,brownTribbleTexture, windowTexture, seaBackground, spaceBackground;
@@ -58,6 +58,7 @@ namespace Monogame___Animations
             windowTexture = Content.Load<Texture2D>("tribbleGalaxy");
             seaBackground = Content.Load<Texture2D>("tribbleUnderwater");
             spaceBackground = Content.Load<Texture2D>("tribbleGalaxy");
+            tribbleSound = Content.Load<SoundEffect>("tribble_coo");
 
         }
 
@@ -74,6 +75,7 @@ namespace Monogame___Animations
             {
                 greyTribbleSpeed.X *= -1;
                 windowTexture = seaBackground;
+                tribbleSound.Play();
             }
 
             greyTribbleRect.Y += (int)greyTribbleSpeed.Y;
@@ -81,6 +83,7 @@ namespace Monogame___Animations
             {
                 greyTribbleSpeed.Y *= -1;
                 windowTexture = spaceBackground;
+                tribbleSound.Play();
             }
 
 
@@ -91,6 +94,7 @@ namespace Monogame___Animations
             {
                 creamTribbleSpeed.X *= -1;
                 windowTexture = seaBackground;
+                tribbleSound.Play();
             }
 
 
@@ -102,6 +106,7 @@ namespace Monogame___Animations
             {
                 orangeTribbleSpeed.Y *= -1;
                 windowTexture = spaceBackground;
+                tribbleSound.Play();
             }
 
 
@@ -112,11 +117,13 @@ namespace Monogame___Animations
             {
                 brownTribbleSpeed.X *= -1;
                 windowTexture = seaBackground;
+                tribbleSound.Play();
             }
             if (brownTribbleRect.Top < 0 || brownTribbleRect.Bottom > window.Height)
             {
                 brownTribbleSpeed.Y *= -1;
                 windowTexture = spaceBackground;
+                tribbleSound.Play();
             }
 
             base.Update(gameTime);
