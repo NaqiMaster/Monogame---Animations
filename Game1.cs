@@ -19,15 +19,17 @@ namespace Monogame___Animations
         }
         Screen screen;
         MouseState mouseState;
-        SpriteFont intro;
+        SpriteFont intro, end;
 
-        SoundEffect tribbleSound;
+        SoundEffect tribbleSound, backgroundMusic;
+        SoundEffectInstance backgroundMusicInstance;
         Random generator = new Random();
         Rectangle window;
         Texture2D greyTribbleTexture, creamTribbleTexture, orangeTribbleTexture,brownTribbleTexture, windowTexture,
-            seaBackground, spaceBackground, tribbleIntroTexture;
+            seaBackground, spaceBackground, tribbleIntroTexture, gameOver;
         Rectangle greyTribbleRect, creamTribbleRect, orangeTribbleRect, brownTribbleRect;
         Vector2 greyTribbleSpeed, creamTribbleSpeed, orangeTribbleSpeed, brownTribbleSpeed;
+        int bounces;
 
         public Game1()
         {
@@ -45,6 +47,8 @@ namespace Monogame___Animations
             _graphics.PreferredBackBufferWidth = window.Width;
             _graphics.PreferredBackBufferHeight = window.Height;
             _graphics.ApplyChanges();
+
+            bounces = 0;
 
             greyTribbleRect = new Rectangle(generator.Next(window.Width - 100), generator.Next(window.Height - 100), 100, 100);
             greyTribbleSpeed = new Vector2(5, 5);
@@ -75,26 +79,40 @@ namespace Monogame___Animations
             tribbleSound = Content.Load<SoundEffect>("tribble_coo");
             tribbleIntroTexture = Content.Load<Texture2D>("tribbleIntro");
             intro = Content.Load<SpriteFont>("intro");
+            end = Content.Load<SpriteFont>("End");
+            gameOver = Content.Load<Texture2D>("game-over");
+            backgroundMusic = Content.Load<SoundEffect>("Beethoven");
+            backgroundMusicInstance = backgroundMusic.CreateInstance();
         }
 
         protected override void Update(GameTime gameTime)
         {
+
             mouseState = Mouse.GetState();
+
+            if (bounces == 50)
+            {
+                screen = Screen.EndScreen;
+            }
 
             if (screen == Screen.Intro)
             {
                 if (mouseState.LeftButton == ButtonState.Pressed)
                     screen = Screen.TribbleYard;
 
+                backgroundMusicInstance.Play();
+
             }
             else if (screen == Screen.TribbleYard)
             {
+                backgroundMusicInstance.Pause();
                 greyTribbleRect.X += (int)greyTribbleSpeed.X;
                 if (greyTribbleRect.Right > window.Width || greyTribbleRect.Left < 0)
                 {
                     greyTribbleSpeed.X *= -1;
                     windowTexture = seaBackground;
                     tribbleSound.Play();
+                    bounces += 1;
                 }
 
                 greyTribbleRect.Y += (int)greyTribbleSpeed.Y;
@@ -103,6 +121,7 @@ namespace Monogame___Animations
                     greyTribbleSpeed.Y *= -1;
                     windowTexture = spaceBackground;
                     tribbleSound.Play();
+                    bounces += 1;
                 }
 
 
@@ -114,6 +133,7 @@ namespace Monogame___Animations
                     creamTribbleSpeed.X *= -1;
                     windowTexture = seaBackground;
                     tribbleSound.Play();
+                    bounces += 1;
                 }
 
 
@@ -126,6 +146,7 @@ namespace Monogame___Animations
                     orangeTribbleSpeed.Y *= -1;
                     windowTexture = spaceBackground;
                     tribbleSound.Play();
+                    bounces += 1;
                 }
 
 
@@ -137,13 +158,19 @@ namespace Monogame___Animations
                     brownTribbleSpeed.X *= -1;
                     windowTexture = seaBackground;
                     tribbleSound.Play();
+                    bounces += 1;
                 }
                 if (brownTribbleRect.Top < 0 || brownTribbleRect.Bottom > window.Height)
                 {
                     brownTribbleSpeed.Y *= -1;
                     windowTexture = spaceBackground;
                     tribbleSound.Play();
+                    bounces += 1;
                 }
+            }
+            else if (screen == Screen.EndScreen)
+            {
+                backgroundMusicInstance.Play();
             }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -176,8 +203,13 @@ namespace Monogame___Animations
                 _spriteBatch.Draw(orangeTribbleTexture, orangeTribbleRect, Color.White);
                 _spriteBatch.Draw(brownTribbleTexture, brownTribbleRect, Color.White);
             }
+            else if (screen == Screen.EndScreen)
+            {
+                _spriteBatch.Draw(gameOver, window, Color.White);
+                _spriteBatch.DrawString(end, "You got 50 bounces!", new Vector2(20, 50), Color.White);
+            }
 
-                _spriteBatch.End();
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
