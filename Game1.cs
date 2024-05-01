@@ -6,17 +6,19 @@ using System;
 
 namespace Monogame___Animations
 {
+    enum Screen
+    {
+        Intro,
+        TribbleYard,
+        EndScreen
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        enum Screen
-        {
-            Intro,
-            TribbleYard,
-            EndScreen
-        }
+        
         Screen screen;
         MouseState mouseState;
         SpriteFont intro, end;
@@ -81,7 +83,7 @@ namespace Monogame___Animations
             intro = Content.Load<SpriteFont>("intro");
             end = Content.Load<SpriteFont>("End");
             gameOver = Content.Load<Texture2D>("game-over");
-            backgroundMusic = Content.Load<SoundEffect>("Beethoven");
+            backgroundMusic = Content.Load<SoundEffect>("furElise");
             backgroundMusicInstance = backgroundMusic.CreateInstance();
         }
 
@@ -171,6 +173,9 @@ namespace Monogame___Animations
             else if (screen == Screen.EndScreen)
             {
                 backgroundMusicInstance.Play();
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                    Exit();
+
             }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

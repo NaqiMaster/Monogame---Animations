@@ -13,18 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Beethoven.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Beethoven.wav
-
 #begin End.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:End.spritefont
+
+#begin furElise.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:furElise.wav
 
 #begin game-over.gif
 /importer:TextureImporter
